@@ -1,0 +1,707 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <!-- <style>
+            .counting {
+                counter-reset: click-counter;
+                counter-reset: buttons-counter;
+                counter-reset: checked-counter;
+                counter-reset: display-counter;
+            }
+
+            input[type="radio"]:checked {
+                counter-increment: checked-counter;
+            }
+
+            div.content-display input[type="checkbox"]:checked + div.display {
+                left: 0px;
+                height: 200px;
+                width: 200px;
+                background: red;
+            }
+
+            div.content-display input[type="checkbox"]:checked + div.display::after {
+                content: counter(display-counter);
+                position: absolute;
+            }
+
+            div.content-display input[type="radio"]:checked + div.display div.display {
+                counter-increment: display-counter;
+                position: absolute;
+                left: 100%;
+                opacity: 0;
+            }
+
+            div.content-display input[type="radio"]:checked + div.display {
+                left: 0px;
+                height: 200px;
+                width: 200px;
+                background: red;
+                opacity: 1;
+            }
+
+        </style> -->
+        <!-- <style>
+
+            :root {
+                --headerFontSize: 18px;
+                --headerFontWeight: bold;
+
+                --contentFontSize: 1em;
+                --contentFontWeight: 400;
+
+            }
+
+            .app {
+                position: relative;
+    
+                border: solid;
+                border-radius: 15px;
+
+                width: 100%;
+                height: 980px;
+                
+                
+                z-index: 45;
+            }
+
+            .carousel {
+                display: grid;
+                grid-template-areas: 
+                    'header'
+                    'content';
+                grid-template-rows: 60px 1fr;
+                grid-template-columns: 1fr;
+
+                height: 900px;
+                width: 900px;
+
+                margin: 40px auto;
+
+                border-radius: 15px;
+                border: solid rgb(107, 36, 183);
+
+
+            }
+
+            .carousel-header {
+                font-size: var(--headerFontSize, 20px);
+                font-weight: var(--headerFontWeight, normal);
+                margin-inline-start: 20px;
+            }
+
+            /*single column template*/
+            .carousel-content {
+                display: grid;
+                grid-template-areas: 
+                    'content-selection-container'
+                    'content-display-container';
+                grid-template-rows: 60px 780px;
+                grid-template-columns: 1fr;
+
+                font-size: var(--contentFontSize, 20px);
+                font-weight: var(--contentFontWeight, normal);
+            }
+
+            .content-selector-container {
+                display: flex;
+                grid-area: content-selection-container;
+                justify-content: center;
+                align-items: center;
+                overflow-x: hidden;
+            }
+
+            .content-selector-item {
+                counter-increment: selector-counter;
+                width: 12px;
+                height: 16px;
+
+                border-radius: 50%;
+                border: solid rgb(79, 79, 222);
+                color: rgb(80, 32, 125);
+                background-color: rgb(69, 12, 122);
+
+                margin-inline-start: 1px;
+                margin-inline-end: 1px;
+            }
+
+            .content-selector-item:checked + div.content-display-item {
+                left: 0px;
+                opacity: 1;
+            }
+
+            /* almost there...i'm stuck on margins and centering */
+            .content-selector-item + div.content-display-item {
+               position: absolute;
+               top: 162px;
+               height: calc(100% - calc(100% - 900px + 162px));
+               width: 800px;
+               margin: auto;
+            }
+
+            .content-display-container {
+                display: grid;
+                grid-area: content-display-container;
+                grid-template-areas: 'display-item';
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr;
+                overflow: hidden;
+            }
+
+            .content-display-item {
+                counter-increment: display-counter;
+                position: relative;
+                left: 100%;
+                opacity: 0;
+                grid-area: display-item;
+
+                height: 99%;
+                width: 99%;
+
+                border-radius: 15px;
+                border: solid rgb(11, 11, 223);
+
+                margin-inline: auto;
+
+                transition: left 300ms, opacity 400ms;
+            }
+
+        </style> -->
+    </head>
+    <body>
+        <!-- <div class="app">
+            <style>
+                /* used when in the shadow-root */
+                /* :host {
+                    --headerFontSize: 18px;
+                    --headerFontWeight: bold;
+    
+                    --contentFontSize: 1em;
+                    --contentFontWeight: 400;
+    
+                } */
+    
+                :root {
+                    --headerFontSize: 18px;
+                    --headerFontWeight: bold;
+    
+                    --contentFontSize: 1em;
+                    --contentFontWeight: 400;
+    
+                }
+    
+                .app {
+                    position: relative;
+        
+                    border: solid;
+                    border-radius: 15px;
+    
+                    width: 100%;
+                    height: 980px;
+                    
+                    
+                    z-index: 45;
+                }
+    
+                .carousel {
+                    display: grid;
+                    grid-template-areas: 
+                        'header'
+                        'content';
+                    grid-template-rows: 60px 1fr;
+                    grid-template-columns: 1fr;
+    
+                    height: 900px;
+                    width: 900px;
+    
+                    margin: 40px auto;
+    
+                    border-radius: 15px;
+                    border: solid rgb(107, 36, 183);
+    
+    
+                }
+    
+                .carousel-header {
+                    font-size: var(--headerFontSize, 20px);
+                    font-weight: var(--headerFontWeight, normal);
+                    margin-inline-start: 20px;
+                }
+    
+                /*single column template*/
+                .carousel-content {
+                    display: grid;
+                    grid-template-areas: 
+                        'content-selection-container'
+                        'content-display-container';
+                    grid-template-rows: 60px 780px;
+                    grid-template-columns: 1fr;
+    
+                    font-size: var(--contentFontSize, 20px);
+                    font-weight: var(--contentFontWeight, normal);
+                }
+    
+                .content-selector-container {
+                    display: flex;
+                    grid-area: content-selection-container;
+                    justify-content: center;
+                    align-items: center;
+                    overflow-x: hidden;
+                }
+    
+                .content-selector-item {
+                    counter-increment: selector-counter;
+                    width: 12px;
+                    height: 16px;
+    
+                    border-radius: 50%;
+                    border: solid rgb(79, 79, 222);
+                    color: rgb(80, 32, 125);
+                    background-color: rgb(69, 12, 122);
+    
+                    margin-inline-start: 1px;
+                    margin-inline-end: 1px;
+                }
+    
+                .content-selector-item:checked + div.content-display-item {
+                    left: 0px;
+                    opacity: 1;
+                }
+    
+                /* almost there...i'm stuck on margins and centering */
+                .content-selector-item + div.content-display-item {
+                   position: absolute;
+                   top: 162px;
+                   height: calc(100% - calc(100% - 900px + 162px));
+                   width: 800px;
+                   margin: auto;
+                }
+    
+                /* .content-selector-item + div.content-display-item {
+                   position: relative;
+                   top: 62px;
+                   height: calc(100% - calc(100% - 62px));
+                   width: 800px;
+                   margin: auto;
+                } */
+    
+                .content-display-container {
+                    display: grid;
+                    grid-area: content-display-container;
+                    grid-template-areas: 'display-item';
+                    grid-template-rows: 1fr;
+                    grid-template-columns: 1fr;
+                    overflow: hidden;
+                }
+    
+                .content-display-item {
+                    counter-increment: display-counter;
+                    position: relative;
+                    left: 100%;
+                    opacity: 0;
+                    grid-area: display-item;
+    
+                    height: 99%;
+                    width: 99%;
+    
+                    border-radius: 15px;
+                    border: solid rgb(11, 11, 223);
+    
+                    margin-inline: auto;
+    
+                    transition: left 300ms, opacity 400ms;
+                }
+    
+            </style>
+            <section class="carousel">
+                <div class="carousel-header">
+                    CSS Carousel Absolute Position
+                </div>
+                <div class="carousel-content">
+                    
+                    <div class="content-selector-container">
+                        <input type="radio" class="content-selector-item" name="content-selection">
+                        <div class="content-display-item">Next to selector</div>
+                        <input type="radio" class="content-selector-item" name="content-selection">
+                        <input type="radio" class="content-selector-item" name="content-selection">
+                        <input type="radio" class="content-selector-item" name="content-selection">
+                        <input type="radio" class="content-selector-item" name="content-selection">
+                    </div>
+    
+                    <div class="content-display-container">
+                        <div class="content-display-item">
+                            I'll display where you put me
+                        </div>
+    
+                        <div class="content-display-item">
+    
+                        </div>
+    
+                        <div class="content-display-item">
+    
+                        </div>
+    
+                        <div class="content-display-item">
+    
+                        </div>
+    
+                        <div class="content-display-item">
+    
+                        </div>
+                    </div>
+    
+                </div>
+            </section>
+        </div> -->
+    
+        
+        <section class="carousel">
+            <style>
+                /* used when in the shadow-root */
+                /* :host {
+                    --headerFontSize: 18px;
+                    --headerFontWeight: bold;
+    
+                    --contentFontSize: 1em;
+                    --contentFontWeight: 400;
+    
+                } */
+    
+                :root {
+                    --headerFontSize: 18px;
+                    --headerFontWeight: bold;
+    
+                    --contentFontSize: 1em;
+                    --contentFontWeight: 400;
+    
+                }
+    
+                .app {
+                    position: relative;
+        
+                    border: solid;
+                    border-radius: 15px;
+    
+                    width: 100%;
+                    height: 980px;
+                    
+                    
+                    z-index: 45;
+                }
+    
+                .carousel {
+                    display: grid;
+                    grid-template-areas: 
+                        'header'
+                        'content';
+                    grid-template-rows: 60px 1fr;
+                    grid-template-columns: 1fr;
+    
+                    height: 900px;
+                    width: 900px;
+    
+                    margin: 40px auto;
+    
+                    border-radius: 15px;
+                    border: solid rgb(107, 36, 183);
+    
+    
+                }
+    
+                .carousel-header {
+                    font-size: var(--headerFontSize, 20px);
+                    font-weight: var(--headerFontWeight, normal);
+                    margin-inline-start: 20px;
+                }
+    
+                /*single column template*/
+                .carousel-content {
+                    display: grid;
+                    grid-template-areas: 
+                        'content-selection-container'
+                        'content-display-container';
+                    grid-template-rows: 60px 780px;
+                    grid-template-columns: 1fr;
+    
+                    font-size: var(--contentFontSize, 20px);
+                    font-weight: var(--contentFontWeight, normal);
+                }
+    
+                .content-selector-container {
+                    display: flex;
+                    grid-area: content-selection-container;
+                    justify-content: center;
+                    align-items: center;
+                    overflow-x: hidden;
+                }
+    
+                .content-selector-item {
+                    counter-increment: selector-counter;
+                    width: 12px;
+                    height: 16px;
+    
+                    border-radius: 50%;
+                    border: solid rgb(79, 79, 222);
+                    color: rgb(80, 32, 125);
+                    background-color: rgb(69, 12, 122);
+    
+                    margin-inline-start: 1px;
+                    margin-inline-end: 1px;
+                }
+
+                .content-selector-item::before {
+                    content: counter(selector-counter);
+                    
+                }
+
+                 
+
+
+                /* proof of selector works to style the next sibling display content container */
+                .content-selector-container + .content-display-container {
+                    border: solid;
+                }
+
+                /*  styles itself if any immediate child is checked */
+                .content-selector-container:has(.content-selector-item:checked)  {
+                    border: solid red;
+                }    
+
+                /* styles next sibling when any immediate child is checked */
+                .content-selector-container:has(.content-selector-item:checked) + .content-display-container {
+                    border: solid rgb(220, 13, 134);
+                }
+
+                /* styles all of the siblings children when any immediate child is selected */
+                /* .content-selector-container:has(.content-selector-item:checked) + .content-display-container div.content-display-item {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* also finds any child but > was expected to only select the first child */
+                /* .content-selector-container:has(>.content-selector-item:checked) + .content-display-container div.content-display-item {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* styles all of the siblings children when any child is selected */
+                /* :is(.content-selector-container:has(.content-selector-item:checked) + .content-display-container div.content-display-item) {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* styles the first child of display content when the first immediate child is selected */
+                /* :is(.content-selector-container:has(.content-selector-item:nth-of-type(1):checked ) + .content-display-container div.content-display-item:nth-of-type(1)) {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* we want to discover a way to select the nth child of display content when the corresponding nth child selection is selected */
+                /* perhaps a list ol has properties that can be used */
+                /* maybe @counter-style to create a string from the counter */
+                /* compare counters and nth-of-type(counter == counter):checked */
+                /*  https://developer.mozilla.org/en-US/docs/Web/CSS/counters */
+                /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Counter_Styles/Using_CSS_counters */
+                
+                /* display-counter, 
+                    selector-counter 
+                */
+
+                 /* selects all selector items */
+                /* .content-selector-item::before {
+                    height: 50px;
+                } */
+
+
+                /* unfortunately counters are not usable for comparison values
+                    and content: counter(c); is not a selectable attribute
+
+                    which concludes that css would have to exist for every selector and every display item
+                     and the css would need to be produced by the content generator
+                */
+
+                :is(.content-selector-container:has(.content-selector-item[data-selector='5']:checked) + .content-display-container div.content-display-item:nth-of-type(5)) {
+                    left: 0px;
+                    opacity: 1;
+                }
+
+                :is(.content-selector-container:has(.content-selector-item[data-selector='4']:checked) + .content-display-container div.content-display-item:nth-of-type(4)) {
+                    left: 0px;
+                    opacity: 1;
+                }
+
+                :is(.content-selector-container:has(.content-selector-item[data-selector='3']:checked) + .content-display-container div.content-display-item:nth-of-type(3)) {
+                    left: 0px;
+                    opacity: 1;
+                }
+
+                :is(.content-selector-container:has(.content-selector-item[data-selector='2']:checked) + .content-display-container div.content-display-item:nth-of-type(2)) {
+                    left: 0px;
+                    opacity: 1;
+                }
+
+                :is(.content-selector-container:has(.content-selector-item[data-selector='1']:checked) + .content-display-container div.content-display-item:nth-of-type(1)) {
+                    left: 0px;
+                    opacity: 1;
+                }
+
+                
+
+
+
+                /* .content-selector-item[data-a=counter(selector-counter )] {
+                    color: rgb(239, 19, 169);
+                } */
+
+                /* .content-selector-item[data-selector='5'] {
+                    color: rgb(239, 19, 169);
+                } */
+                /* .content-selector-item::before[content=5] {
+                    color: rgb(239, 19, 169);
+                } */
+
+                /* .content-selector-item::before[innerHTML="5"] {
+                    color: rgb(239, 19, 169);
+                } */
+
+               /* .content-selector-item::before[text=5] {
+                    color: rgb(239, 19, 169);
+                } */
+
+                /* .content-selector-item::before[content=5] {
+                    height: 50px;
+                } */
+
+
+                /* .content-selector-container:has(.content-selector-item::before[content=5]) {
+                    height: 50px;
+                } */
+
+                
+                /* :is(.content-selector-container:has(.content-selector-item::before[content="5"]) ) {
+                    height: 50px;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:checked::before[content="5"]) ) {
+                    height: 50px;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:checked)::before[content="5"] ) {
+                    height: 50px;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:checked::before[content='counter(display-counter)']) ) {
+                    height: 50px;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:checked::before[content='counter(display-counter)'])::before ) {
+                    height: 50px;
+                } */
+
+               /* :is(.content-selector-container:has(.content-selector-item:checked::before[content=counter(display-counter)] ) + .content-display-container div.content-display-item) {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:nth-of-type(counter(selector-counter, integer)):checked ))::after {
+                   height: 50px;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:nth-of-type(counter(selector-counter)):checked ) + .content-display-container div.content-display-item:nth-of-type(counter(selector-counter))) {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+                /* :is(.content-selector-container:has(.content-selector-item:nth-of-type(counter(selector-counter)):checked ) + .content-display-container div.content-display-item:nth-of-type(counter(selector-counter))) {
+                    left: 0px;
+                    opacity: 1;
+                } */
+
+
+
+
+    
+                .content-display-container {
+                    display: grid;
+                    grid-area: content-display-container;
+                    grid-template-areas: 'display-item';
+                    grid-template-rows: 1fr;
+                    grid-template-columns: 1fr;
+                    width: calc(100% - 12px);
+                    margin: 0px auto;
+                    overflow: hidden;
+                }
+    
+                .content-display-item {
+                    counter-increment: display-counter;
+                    position: relative;
+                    left: 100%;
+                    opacity: 0;
+                    grid-area: display-item;
+    
+                    height: 99%;
+                    width: 99%;
+    
+                    border-radius: 15px;
+                    border: solid rgb(11, 11, 223);
+    
+                    margin-inline: auto;
+                    opacity: 0;
+    
+                    /* transition: left 300ms, opacity 400ms; */
+                    transition: left 300ms;
+                }
+                .content-display-item::after {
+                    content: counter(display-counter);
+                }
+
+    
+            </style>
+            <div class="carousel-header">
+                CSS Carousel Relative Single Column Position
+            </div>
+            <div class="carousel-content">
+                
+                <div class="content-selector-container">
+                    <input type="radio" class="content-selector-item" name="content-selection" data-selector="1">
+                    <input type="radio" class="content-selector-item" name="content-selection" data-selector="2">
+                    <input type="radio" class="content-selector-item" name="content-selection" data-selector="3">
+                    <input type="radio" class="content-selector-item" name="content-selection" data-selector="4">
+                    <input type="radio" class="content-selector-item" name="content-selection" data-selector="5">
+                </div>
+
+                <div class="content-display-container">
+                    <div class="content-display-item"> ONE I'll display where you put me </div>
+                    <div class="content-display-item"> TWO I'll display where you put me </div>
+                    <div class="content-display-item"> THREE I'll display where you put me </div>
+                    <div class="content-display-item"> FOUR I'll display where you put me </div>
+                    <div class="content-display-item"> FIVE I'll display where you put me </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- <section class="counting">
+            <div class="content-display">
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+
+                
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+
+                <input type="checkbox" class="count count-up"/>Count Up
+                <div class="display"></div>
+            </div>
+        </section> -->
+    </body>
+</html>

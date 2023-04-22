@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <style>
+            /* used when in the shadow-root */
+            /* :host {
+                --headerFontSize: 18px;
+                --headerFontWeight: bold;
+
+                --contentFontSize: 1em;
+                --contentFontWeight: 400;
+
+            } */
+
+            :root {
+                --headerFontSize: 18px;
+                --headerFontWeight: bold;
+
+                --contentFontSize: 1em;
+                --contentFontWeight: 400;
+
+            }
+
+            .app {
+                position: relative;
+    
+                border: solid;
+                border-radius: 15px;
+
+                width: 100%;
+                height: 980px;
+                
+                
+                z-index: 45;
+            }
+
+            .carousel {
+                display: grid;
+                grid-template-areas: 
+                    'header'
+                    'content';
+                grid-template-rows: 60px 1fr;
+                grid-template-columns: 1fr;
+
+                height: 900px;
+                width: 900px;
+
+                margin: 40px auto;
+
+                border-radius: 15px;
+                border: solid rgb(107, 36, 183);
+
+
+            }
+
+            .carousel-header {
+                font-size: var(--headerFontSize, 20px);
+                font-weight: var(--headerFontWeight, normal);
+                margin-inline-start: 20px;
+            }
+
+            /*single column template*/
+            .carousel-content {
+                display: grid;
+                grid-template-areas: 
+                    'content-selection-container'
+                    'content-display-container';
+                grid-template-rows: 60px 780px;
+                grid-template-columns: 1fr;
+
+                font-size: var(--contentFontSize, 20px);
+                font-weight: var(--contentFontWeight, normal);
+            }
+
+            .content-selector-container {
+                display: flex;
+                grid-area: content-selection-container;
+                justify-content: center;
+                align-items: center;
+                overflow-x: hidden;
+            }
+
+            .content-selector-item {
+                counter-increment: selector-counter;
+                width: 12px;
+                height: 16px;
+
+                border-radius: 50%;
+                border: solid rgb(79, 79, 222);
+                color: rgb(80, 32, 125);
+                background-color: rgb(69, 12, 122);
+
+                margin-inline-start: 1px;
+                margin-inline-end: 1px;
+            }
+
+            .content-selector-item:checked + div.content-display-item {
+                left: 0px;
+                opacity: 1;
+            }
+
+            /* almost there...i'm stuck on margins and centering */
+            .content-selector-item + div.content-display-item {
+                position: absolute;
+                top: 162px;
+                height: calc(100% - calc(100% - 900px + 162px));
+                width: 800px;
+                margin: auto;
+            }
+
+            .content-display-container {
+                display: grid;
+                grid-area: content-display-container;
+                grid-template-areas: 'display-item';
+                grid-template-rows: 1fr;
+                grid-template-columns: 1fr;
+                overflow: hidden;
+            }
+
+            .content-display-item {
+                counter-increment: display-counter;
+                position: relative;
+                left: 100%;
+                opacity: 0;
+                grid-area: display-item;
+
+                height: 99%;
+                width: 99%;
+
+                border-radius: 15px;
+                border: solid rgb(11, 11, 223);
+
+                margin-inline: auto;
+
+                transition: left 300ms, opacity 700ms;
+            }
+
+        </style>
+    </head>
+    <body>
+       
+    
+        
+        <section class="carousel">
+           
+            <div class="carousel-header">
+                CSS Carousel Relative Single Column Position
+            </div>
+            <div class="carousel-content">
+                
+                <div class="content-selector-container">
+                    <input type="radio" class="content-selector-item" name="content-selection">
+                    <div class="content-display-item">1 Next to selector</div>
+                    <input type="radio" class="content-selector-item" name="content-selection">
+                    <div class="content-display-item">2 Next to selector</div>
+                    <input type="radio" class="content-selector-item" name="content-selection">
+                    <div class="content-display-item">3 Next to selector</div>
+                    <input type="radio" class="content-selector-item" name="content-selection">
+                    <div class="content-display-item">4 Next to selector</div>
+                    <input type="radio" class="content-selector-item" name="content-selection">
+                    <div class="content-display-item">5 Next to selector</div>
+                </div>
+
+                <div class="content-display-container">
+                    <div class="content-display-item">1 display where you put me</div>
+                    <div class="content-display-item">2 display where you put me</div>
+                    <div class="content-display-item">3 display where you put me</div>
+                    <div class="content-display-item">4 display where you put me</div>
+                </div>
+
+            </div>
+        </section>
+       
+    </body>
+</html>

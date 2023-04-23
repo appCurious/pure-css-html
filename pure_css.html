@@ -34,10 +34,12 @@
                     grid-template-areas: 
                         'header'
                         'content';
-                    grid-template-rows: 60px 1fr;
+                    /* grid-template-rows: 60px 1fr; */
+                    grid-template-rows: 20px 1fr;
                     grid-template-columns: 1fr;
-    
+
                     height: 900px;
+                    height: 665px;
                     width: 900px;
     
                     margin: 40px auto;
@@ -59,7 +61,8 @@
                     grid-template-areas: 
                         'content-selection-container'
                         'content-display-container';
-                    grid-template-rows: 60px 780px;
+                    /* grid-template-rows: 60px 780px; */
+                    grid-template-rows: 60px calc(100% - 95px);
                     grid-template-columns: 1fr;
     
                     font-size: var(--contentFontSize, 20px);

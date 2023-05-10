@@ -6,6 +6,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "build:js": "node esbuild.js app/views/carousel/carousel.js --bundle --outdir=build --outbase=app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "gregclark2k11@gmail.com",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.17.18",
-    "esbuild-plugin-inline-import": "^1.0.1"
+    "esbuild-plugin-inline-import": "^1.0.1",
+    "glob": "^9.3.5"
   }
 }

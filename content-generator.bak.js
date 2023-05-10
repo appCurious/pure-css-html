@@ -17,10 +17,13 @@ import fs         from 'fs';
 import toHtml     from 'snabbdom-to-html';
 
 // content views
-import Carousel from './build/views/carousel/carousel.main.min.mjs';
+import Carousel from './app/views/carousel/carousel.js';
 
 // sample data
 import sampleData from './app/models/sample-content/content-example.js';
+
+
+
 
 const displayTypes = {
     'Carousel': {
@@ -30,8 +33,9 @@ const displayTypes = {
 };
 
 
-function generateDisplayContent (contentJson, includeJavascript) {
+function generateDisplayContent (contentJson, styles, includeJavascript) {
     const displayControl = displayTypes[contentJson.displayType];
+    styles.css += fs.readFileSync( displayControl.cssPath, 'utf-8');
 
     if (!displayControl)
         return html`<div>no display control for ${contentJson.displayType}</div>`
@@ -53,6 +57,7 @@ function generateContentFromJson (contentJson, styles, includeJavascript) {
 async function createHTML (outputFilePath, contentJson, includeJavascript) {
     outputFilePath = outputFilePath || './export/pure-content.html';
     const rehydratableFile = './export/reydrate-content.html';
+    const styles = {css: ''};
     
     try {
         contentJson = JSON.parse(contentJson);
@@ -64,7 +69,8 @@ async function createHTML (outputFilePath, contentJson, includeJavascript) {
     }
 
     // pure html css implementation
-    let content = toHtml(generateContentFromJson(contentJson, includeJavascript));
+    let content = toHtml(generateContentFromJson(contentJson, styles, includeJavascript));
+    content = `<style>${styles.css}</style>` + content;
     fs.writeFileSync(outputFilePath, content);
 
     let hydrateContent = `<!DOCTYPE HTML>

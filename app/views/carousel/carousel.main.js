@@ -5,6 +5,7 @@
 
 
 import html from 'snabby';
+import css from 'css:./carousel.css';
 
 
 /**
@@ -72,6 +73,7 @@ const view = (model, update) => {
     
     // const css = html`<style>${styles}</style>`;
     return html`<section class="carousel">
+        <style>${css}</style>
         <style>${styles}</style>
         <div class="carousel-header">
             ${model.caption}

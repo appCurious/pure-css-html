@@ -1,0 +1,21 @@
+{
+  "name": "pure-css-html",
+  "version": "1.0.0",
+  "description": "experimentation with pure css and html",
+  "main": "index.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gregclark2k11@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "snabbdom-to-html": "^7.1.0",
+    "snabby": "^5.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.17.18",
+    "esbuild-plugin-inline-import": "^1.0.1"
+  }
+}

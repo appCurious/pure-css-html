@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "build:js": "node esbuild.js",
+    "generate:default": "node content-generator.js run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "gregclark2k11@gmail.com",

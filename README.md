@@ -53,6 +53,10 @@ npm run build:js
 
 
 ## Run
+### Default Content
+```
+npm run generate:default
+```
 ### CLI
 flags tell the system how to output your content
 ```

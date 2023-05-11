@@ -52,7 +52,7 @@ function generateContentFromJson (contentJson, styles) {
 
 async function createHTML (outputFilePath, contentJson) {
     outputFilePath = outputFilePath || './export/pure-content.html';
-    const rehydratableFile = './export/reydrate-content.html';
+    const jsEnabledFile = './export/jsenabled-content.html';
     const mainScriptFile = './build/views/main-view.main.min.mjs';
     
     try {
@@ -72,7 +72,7 @@ async function createHTML (outputFilePath, contentJson) {
     const main = fs.readFileSync(mainScriptFile, {encoding: 'UTF8'});
     
 
-    let hydrateContent = `<!DOCTYPE HTML>
+    let jsEnabledContent = `<!DOCTYPE HTML>
     <html>
         <head>
 
@@ -86,7 +86,7 @@ async function createHTML (outputFilePath, contentJson) {
                 </div>
             </main>
 
-            <!-- this avoids the need for a server, the content generator adds the content that was used to create 
+            <!-- this avoids the need for a server, the content generator adds the json that was used to create the display content
                 in a production environment we would call for the content
             -->
             <script>
@@ -104,7 +104,7 @@ async function createHTML (outputFilePath, contentJson) {
            
         </body>
     </html>`;
-    fs.writeFileSync(rehydratableFile, hydrateContent);
+    fs.writeFileSync(jsEnabledFile, jsEnabledContent);
 
 }
 

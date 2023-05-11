@@ -48,7 +48,7 @@ const view = (model, update) => {
         /* unfortunately counters are not usable for comparison values
             and content: counter(c); is not a selectable attribute
             Not supported
-                .carousel-content-selector-item[data-a=counter(selector-counter)]
+                .carousel-content-selector-item[data-selector=counter(selector-counter)]
                 :is(.carousel-content-selector-container:has(.content-selector-item:nth-of-type(selector-counter):checked )
 
             which concludes that css would have to exist for every selector and every display item

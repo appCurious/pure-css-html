@@ -2,11 +2,11 @@
   "name": "pure-css-html",
   "version": "1.0.0",
   "description": "experimentation with pure css and html",
-  "main": "index.js",
+  "main": "main-view.main.js",
   "type": "module",
   "private": true,
   "scripts": {
-    "build:js": "node esbuild.js app/views/carousel/carousel.js --bundle --outdir=build --outbase=app",
+    "build:js": "node esbuild.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "gregclark2k11@gmail.com",

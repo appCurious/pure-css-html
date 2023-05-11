@@ -171,3 +171,7 @@
     max-width: 800px;
     margin: auto;
 }
+
+.carousel .carousel-content .content-display-item.script-enabled {
+    border: solid red;
+}

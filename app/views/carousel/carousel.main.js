@@ -17,6 +17,7 @@ import css from 'css:./carousel.css';
 const init = (config) => {
     const model = {
         items: config.items || [],
+        selectedIndex: 1,
     };
 
     return model;
@@ -36,12 +37,12 @@ const view = (model, update) => {
     if (!model.items?.length)
         return html`<div class="carousel-content"></div>`;
 
-    let styles = '';
+    let styles = css;
 
     model.items.forEach((item, idx) => {
         const nth = idx+1; // nth-of-type starts at 1
-        contentSelectors.push(renderCarouselContentSelectors(nth, item));
-        displayItems.push(renderContentDisplayItem(nth, item));
+        contentSelectors.push(renderCarouselContentSelectors(model, nth, item, update));
+        displayItems.push(renderContentDisplayItem(nth, item, update));
 
         
         /* unfortunately counters are not usable for comparison values
@@ -57,23 +58,13 @@ const view = (model, update) => {
         :is(.content-selector-container:has(.content-selector-item:nth-of-type(${nth}):checked) + .content-display-container div.content-display-item:nth-of-type(${nth})) {
             left: 0px;
             opacity: 1;
-        }
-        `;
-        /** Unexpected issues with quotes and single quotes being converted to &quote; &#39; */
-        // styles += `
-        // :is(.content-selector-container:has(.content-selector-item[data-selector='${nth}']:checked) + .content-display-container div.content-display-item:nth-of-type(1)) {
-        //     left: 0px;
-        //     opacity: 1;
-        // }
-        // `;
+        }`;
 
         
 
     });
     
-    // const css = html`<style>${styles}</style>`;
     return html`<section class="carousel">
-        <style>${css}</style>
         <style>${styles}</style>
         <div class="carousel-header">
             ${model.caption}
@@ -91,18 +82,29 @@ const view = (model, update) => {
     </section>`;
 };
 
-function renderCarouselContentSelectors(idx, item) {
-    const checked = idx === 1 ? 'checked' : '';
+function renderCarouselContentSelectors(model, idx, item, update) {
+    const checked = model.selectedIndex === idx ? 'checked' : '';
 
-    return html`<input type="radio" class="content-selector-item" name="carousel-content-selection" data-selector="${idx}" tabindex="0" ${checked} />`;
+    return html`<input type="radio" class="content-selector-item" name="carousel-content-selection"
+        data-selector="${idx}"
+        tabindex="0" 
+        ${checked} 
+        @on:click=${update ? () => selectItem(model, idx, update) : null}/>`;
 }
 
-function renderContentDisplayItem(idx, item) {
+function selectItem (model, idx, update) {
+    model.selectedIndex = idx;
+    update();
+}
+
+function renderContentDisplayItem(idx, item, update) {
+    const confirmScript = update ? 'script-enabled' : '';
+
     if (item.type === 'Text')
-        return html`<div class="content-display-item"> <div><p>${item.description}</p></div> </div>`;
+        return html`<div class="content-display-item ${confirmScript}"> <div><p>${item.description}</p></div> </div>`;
 
     if (item.type === 'Image')
-        return html`<div class="content-display-item"> <picture><image src="${item.asset.url}"></image></picture> </div>`;
+        return html`<div class="content-display-item ${confirmScript}"> <picture><img class="image" src="${item.asset.url}" /></picture> </div>`;
 }
 
 export default { init, view };

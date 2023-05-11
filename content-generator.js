@@ -30,10 +30,10 @@ const displayTypes = {
 };
 
 
-function generateDisplayContent (contentJson, includeJavascript) {
+function generateDisplayContent (contentJson) {
     const displayControl = displayTypes[contentJson.displayType];
 
-    if (!displayControl)
+    if (!displayControl) // for development
         return html`<div>no display control for ${contentJson.displayType}</div>`
 
     const contentModel = displayControl.implementation.init(contentJson);
@@ -41,18 +41,19 @@ function generateDisplayContent (contentJson, includeJavascript) {
     return displayControl.implementation.view(contentModel);
 }
 
-function generateContentFromJson (contentJson, styles, includeJavascript) {
+function generateContentFromJson (contentJson, styles) {
 
     const content = contentJson.displayItems.map((item) => {
-        return generateDisplayContent(item, styles, includeJavascript);
+        return generateDisplayContent(item, styles);
     });
 
     return html`<article id="app-curious-content" class="app-curious-content">${content}</article>`;
 }
 
-async function createHTML (outputFilePath, contentJson, includeJavascript) {
+async function createHTML (outputFilePath, contentJson) {
     outputFilePath = outputFilePath || './export/pure-content.html';
     const rehydratableFile = './export/reydrate-content.html';
+    const mainScriptFile = './build/views/main-view.main.min.mjs';
     
     try {
         contentJson = JSON.parse(contentJson);
@@ -60,17 +61,21 @@ async function createHTML (outputFilePath, contentJson, includeJavascript) {
         // quietly ignore the parse exception
         // use the testing data
         contentJson = sampleData.content;
-        contentJson.contentHeader = `${ignore}`;
+        // contentJson.contentHeader = `${ignore}`;
     }
 
     // pure html css implementation
-    let content = toHtml(generateContentFromJson(contentJson, includeJavascript));
+    // toHTML converts single quotes and quotes to HTML characters...duh...should have expected that ;)
+    let content = toHtml(generateContentFromJson(contentJson)).replace(/&#39;/g, "'").replace(/&quote;/g, '"');
     fs.writeFileSync(outputFilePath, content);
+
+    const main = fs.readFileSync(mainScriptFile, {encoding: 'UTF8'});
+    
 
     let hydrateContent = `<!DOCTYPE HTML>
     <html>
         <head>
-            <script type="module" src="../assets/rehydrate.js"></script>
+
         </head>
         <body>
             <main>
@@ -80,6 +85,23 @@ async function createHTML (outputFilePath, contentJson, includeJavascript) {
                     ${content}
                 </div>
             </main>
+
+            <!-- this avoids the need for a server, the content generator adds the content that was used to create 
+                in a production environment we would call for the content
+            -->
+            <script>
+                window.appcurious = {
+                    contentJson: ${JSON.stringify(contentJson)}
+                };
+            </script>
+            <!-- 
+                script added here to avoid the need for a server for this experimentation
+                  it could just as easily have been a url to a hosted script
+            -->
+            <script type="module">
+                ${main}
+            </script>
+           
         </body>
     </html>`;
     fs.writeFileSync(rehydratableFile, hydrateContent);

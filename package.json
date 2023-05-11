@@ -13,6 +13,7 @@
   "author": "gregclark2k11@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "happy-dom": "^9.13.0",
     "snabbdom-to-html": "^7.1.0",
     "snabby": "^5.0.0"
   },

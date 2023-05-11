@@ -1,14 +1,6 @@
 
 // snabby requires a browser window
-// but this is not working quite right to provide a global window object
-global.window = {
-    ResizeObserver: function () {
-        return {
-            observe: (vnode) => {},
-            unobserve: (elm) => {}
-        }
-    }
-};
+import './browser-setup.js';
 
 
 // html render functions
@@ -123,6 +115,9 @@ async function createHTML (outputFilePath, contentJson) {
  * 
  */
 async function cliRun () {
+    
+
+   
     const args = process.argv.slice(2);
     if (args.includes('run')) {
         // parse cmd line flags

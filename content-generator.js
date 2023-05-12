@@ -42,9 +42,13 @@ function generateContentFromJson (contentJson, styles) {
     return html`<article id="app-curious-content" class="app-curious-content">${content}</article>`;
 }
 
-async function createHTML (outputFilePath, contentJson) {
-    outputFilePath = outputFilePath || './export/pure-content.html';
-    const jsEnabledFile = './export/jsenabled-content.html';
+async function createHTML (exportPath, contentJson) {
+    // only use the provided path if it already exists
+    if (!fs.existsSync(exportPath))
+        exportPath = './export';
+    
+    const outputFilePath = `${exportPath}/pure-content.html`;
+    const jsEnabledFile = `${exportPath}/jsenabled-content.html`;
     const mainScriptFile = './build/views/main-view.main.min.mjs';
     
     try {
@@ -59,6 +63,9 @@ async function createHTML (outputFilePath, contentJson) {
     // pure html css implementation
     // toHTML converts single quotes and quotes to HTML characters...duh...should have expected that ;)
     let content = toHtml(generateContentFromJson(contentJson)).replace(/&#39;/g, "'").replace(/&quote;/g, '"');
+    if (!fs.existsSync(exportPath))
+        fs.mkdirSync(exportPath);
+
     fs.writeFileSync(outputFilePath, content);
 
     const main = fs.readFileSync(mainScriptFile, {encoding: 'UTF8'});

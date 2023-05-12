@@ -66,7 +66,7 @@ named flags without : are acted upon as boolean true when present
 
   process.argv [
        run,
-       outfilepath:pathforoutput, // will default to export directory
+       outfilepath:pathforoutput, // will default to export directory if not provided or when the path does not exist
        contentjson:"{stringified-json}", // will default to sample data
        javascript,
   ]
